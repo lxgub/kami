@@ -2,7 +2,6 @@ from typing import Any
 
 from django.contrib.auth.models import User
 from ninja import ModelSchema, Schema
-from time import time as now_time
 
 
 class UserSchema(ModelSchema):
@@ -20,7 +19,6 @@ class AirplaneIn(Schema):
 # ApiResponses
 
 class ApiResponseInfo(Schema):
-    created_at: int = now_time()
     results: Any = None
-    text: str = ''
+    text: str = 'OK'
     code: int

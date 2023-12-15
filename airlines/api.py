@@ -1,27 +1,33 @@
 from ninja import Router
 
 from airlines.schemas import AirplaneIn, ApiResponseInfo
+from airlines.v1.get_aircraft import GetAircraftUseCase
+from airlines.v1.post_aircraft import PostAircraftUseCase
 
 router = Router()
 
 
-@router.post('/airplane', tags=['v1'],
-             response=ApiResponseInfo)
-def post_aircraft(request, payload: AirplaneIn):
+@router.post('/aircraft', tags=['v1'],
+             response={200: ApiResponseInfo,
+                       404: ApiResponseInfo,
+                       500: ApiResponseInfo})
+def post_aircraft(request, payload: AirplaneIn):  # type: ignore
     """
     Adds one aircraft to the aircraft fleet.
-    The aircraft ID must be from 1 to 10.
+    - The "airplane_identifier" must be from 1 to 10
     """
-    return ApiResponseInfo(code=200)
+    return PostAircraftUseCase()(payload)
 
 
-@router.get('/airplane/{identifier}',
+@router.get('/aircraft/{identifier}',
             tags=['v1'],
-            response=ApiResponseInfo)
-def get_aircraft(request, identifier: int):
+            response={200: ApiResponseInfo,
+                      404: ApiResponseInfo,
+                      500: ApiResponseInfo})
+def get_aircraft(request, identifier: int):   # type: ignore
     """
     Generates Aircraft Specification.
     - fuel consumption per minute
     - maximum minutes able to fly
     """
-    return ApiResponseInfo(code=200)
+    return GetAircraftUseCase()(identifier=identifier)
