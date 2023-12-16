@@ -1,6 +1,6 @@
 from typing import Optional, cast
 
-from airlines.v1.entities import AircraftSpecification
+from airlines.v1.calculations import BaseAircraftCalculator
 from airlines.v1.response_wrapper import server_response
 
 from airlines.logreport import LogReport
@@ -18,13 +18,10 @@ class GetAircraftUseCase:
             if not (aircraft := self._get_aircraft(identifier)):
                 text = f'Airplane with identifier {identifier} was not found.'
                 return ApiResponseInfo(code=404, text=text)
-            aircraft_spec = AircraftSpecification(airplane_identifier=aircraft.airplane_identifier,
-                                                  passenger_capacity=aircraft.passenger_capacity)
-            aircraft_spec.calculate_real_tank_capacity()
-            aircraft_spec.calculate_real_consumption()
-            aircraft_spec.calculate_flight_minutes()
-            result = aircraft_spec.dict(include={'fuel_consumption', 'flight_minutes'})
-            return ApiResponseInfo(code=200, results=result)
+            calculator = BaseAircraftCalculator(airplane_identifier=aircraft.airplane_identifier,
+                                                passenger_capacity=aircraft.passenger_capacity)
+            results = calculator.get_result()
+            return ApiResponseInfo(code=200, results=results)
 
     @staticmethod
     def _get_aircraft(identifier: int) -> Optional[Airplane]:
