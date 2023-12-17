@@ -1,6 +1,4 @@
 # Kami Airlines API
-The Kami Airlines API offers the capability to add up to 10 aircraft to the fleet and retrieve
-information about the added aircraft.
 
 ### Endpoint: /api/v1/aircraft [POST]
 ```
