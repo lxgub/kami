@@ -25,6 +25,7 @@ class BaseAircraftCalculator(IAircraftCalculator):
     def calculate(self) -> None:
         self._calculate_real_tank_capacity()
         self._calculate_real_consumption()
+        self._calculate_flight_minutes()
 
     def get_result(self) -> Dict:
         return self._specification.dict(include={'fuel_consumption', 'flight_minutes'})
@@ -42,7 +43,7 @@ class BaseAircraftCalculator(IAircraftCalculator):
         """
         base_consumption = self._get_base_consumption()
         additional_consumption = self._get_additional_consumption()
-        self.fuel_consumption = base_consumption + additional_consumption
+        self._specification.fuel_consumption = base_consumption + additional_consumption
 
     def _calculate_flight_minutes(self) -> None:
         """

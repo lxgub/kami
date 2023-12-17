@@ -20,6 +20,7 @@ class GetAircraftUseCase:
                 return ApiResponseInfo(code=404, text=text)
             calculator = BaseAircraftCalculator(airplane_identifier=aircraft.airplane_identifier,
                                                 passenger_capacity=aircraft.passenger_capacity)
+            calculator.calculate()
             results = calculator.get_result()
             return ApiResponseInfo(code=200, results=results)
 

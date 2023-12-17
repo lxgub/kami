@@ -14,7 +14,8 @@ router = Router()
 def post_aircraft(request, payload: AirplaneIn):  # type: ignore
     """
     Adds one aircraft to the aircraft fleet.
-    - The "airplane_identifier" must be from 1 to 10
+    - We have only 10 types of aircraft [2,3,4,5,6,7,8,9,10,11]
+    - The "airplane_identifier" must be from 2 to 11
     """
     return PostAircraftUseCase()(payload)
 
